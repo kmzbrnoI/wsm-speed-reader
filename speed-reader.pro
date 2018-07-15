@@ -19,13 +19,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        main-window.cpp
 
 HEADERS += \
-        mainwindow.h
+        main-window.h
 
 FORMS += \
-        mainwindow.ui
+        main-window.ui
 
 CONFIG += c++14
 QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
