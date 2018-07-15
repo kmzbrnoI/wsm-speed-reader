@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-07-15T11:38:02
-#
-#-------------------------------------------------
-
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -32,3 +26,6 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui
+
+CONFIG += c++14
+QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
