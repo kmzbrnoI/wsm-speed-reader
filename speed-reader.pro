@@ -19,13 +19,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        main-window.cpp
+        main-window.cpp \
+        measure-car.cpp
 
 HEADERS += \
-        main-window.h
+        main-window.h \
+        measure-car.h
 
 FORMS += \
         main-window.ui
 
 CONFIG += c++14
 QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
+
+QT += serialport
