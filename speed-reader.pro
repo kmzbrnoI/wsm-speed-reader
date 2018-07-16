@@ -24,7 +24,8 @@ SOURCES += \
 
 HEADERS += \
         main-window.h \
-        measure-car.h
+        measure-car.h \
+        ui_main-window.h
 
 FORMS += \
         main-window.ui
