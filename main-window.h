@@ -15,6 +15,7 @@ public:
 	~MainWindow();
 
 private slots:
+	void on_b_connect_clicked();
 
 private:
 	Ui_MainWindow ui;
