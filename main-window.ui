@@ -99,7 +99,7 @@
       </font>
      </property>
      <property name="text">
-      <string>40</string>
+      <string>??</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_3">

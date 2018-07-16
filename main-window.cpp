@@ -33,6 +33,7 @@ void MainWindow::disconnect() {
 	m_mc = nullptr;
 	ui.b_connect->setText("Connect");
 	ui.le_portname->setEnabled(true);
+	ui.l_speed->setText("??");
 }
 
 void MainWindow::b_connect_handle() {
