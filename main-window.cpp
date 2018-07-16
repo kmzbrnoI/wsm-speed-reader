@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent) {
 	ui.setupUi(this);
 
-	QObject::connect(ui.b_connect, SIGNAL (released()), this, SLOT (b_connect_handle()));
+	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
 }
 
 MainWindow::~MainWindow() {}
@@ -14,7 +14,7 @@ MainWindow::~MainWindow() {}
 void MainWindow::connect() {
 	try {
 		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text());
-		QObject::connect(m_mc.get(), SIGNAL (speedRead()), this, SLOT(mc_speedRead()));
+		QObject::connect(m_mc.get(), SIGNAL(speedRead(unsigned int)), this, SLOT(mc_speedRead(unsigned int)));
 		ui.b_connect->setText("Disconnect");
 		ui.le_portname->setEnabled(false);
 	} catch (const EOpenError& e) {
@@ -30,7 +30,7 @@ void MainWindow::connect() {
 
 void MainWindow::disconnect() {
 	m_mc = nullptr;
-	ui.b_connect->setText("Cconnect");
+	ui.b_connect->setText("Connect");
 	ui.le_portname->setEnabled(true);
 }
 
