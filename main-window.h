@@ -22,6 +22,9 @@ private:
 	Ui_MainWindow ui;
 	std::unique_ptr<MeasureCar> m_mc;
 
+	void connect();
+	void disconnect();
+
 };
 
 #endif // MAIN_H
