@@ -9,14 +9,14 @@ class MeasureCar : public QObject {
 	Q_OBJECT
 
 public:
-	explicit MeasureCar(QSerialPort *serialPort, QObject *parent = nullptr);
+	explicit MeasureCar(QString portname, QObject *parent = nullptr);
 
 private slots:
 	void handleReadyRead();
 	void handleError(QSerialPort::SerialPortError error);
 
 private:
-	QSerialPort *m_serialPort = nullptr;
+	QSerialPort m_serialPort;
 	QByteArray m_readData;
 };
 

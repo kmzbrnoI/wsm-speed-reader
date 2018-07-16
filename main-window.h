@@ -2,6 +2,9 @@
 #define MAIN_H
 
 #include <QMainWindow>
+#include <memory>
+
+#include "measure-car.h"
 
 namespace Ui {
 	class MainWindow;
@@ -16,6 +19,8 @@ public:
 
 private:
 	Ui::MainWindow *ui;
+	std::unique_ptr<MeasureCar> m_mc;
+
 };
 
 #endif // MAIN_H
