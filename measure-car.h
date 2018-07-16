@@ -22,6 +22,9 @@ private slots:
 	void handleReadyRead();
 	void handleError(QSerialPort::SerialPortError error);
 
+signals:
+	void speedRead(unsigned int speed);
+
 private:
 	QSerialPort m_serialPort;
 	QByteArray m_readData;

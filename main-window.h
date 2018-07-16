@@ -16,6 +16,7 @@ public:
 
 private slots:
 	void b_connect_handle();
+	void mc_speedRead(unsigned int speed);
 
 private:
 	Ui_MainWindow ui;

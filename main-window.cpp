@@ -14,6 +14,7 @@ MainWindow::~MainWindow() {}
 void MainWindow::b_connect_handle() {
 	try {
 		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text());
+		connect(m_mc.get(), SIGNAL (speedRead()), this, SLOT(mc_speedRead()));
 	} catch (const EOpenError& e) {
 		QMessageBox m(
 			QMessageBox::Icon::Warning,
@@ -24,3 +25,8 @@ void MainWindow::b_connect_handle() {
 		m.exec();
 	}
 }
+
+void MainWindow::mc_speedRead(unsigned int speed) {
+	ui.l_speed->setText(QString::number(speed));
+}
+
