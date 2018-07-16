@@ -15,6 +15,7 @@ void MainWindow::connect() {
 	try {
 		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text());
 		QObject::connect(m_mc.get(), SIGNAL(speedRead(unsigned int)), this, SLOT(mc_speedRead(unsigned int)));
+		QObject::connect(m_mc.get(), SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
 		ui.b_connect->setText("Disconnect");
 		ui.le_portname->setEnabled(false);
 	} catch (const EOpenError& e) {
@@ -45,3 +46,12 @@ void MainWindow::mc_speedRead(unsigned int speed) {
 	ui.l_speed->setText(QString::number(speed));
 }
 
+void MainWindow::mc_onError(QString error) {
+	QMessageBox m(
+		QMessageBox::Icon::Warning,
+		"Error!",
+		"Serial port error:\n" + error,
+		QMessageBox::Ok
+	);
+	m.exec();
+}

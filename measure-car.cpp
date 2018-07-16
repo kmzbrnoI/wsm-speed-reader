@@ -21,6 +21,6 @@ void MeasureCar::handleReadyRead() {
 }
 
 void MeasureCar::handleError(QSerialPort::SerialPortError serialPortError) {
-	// TODO
 	(void)serialPortError;
+	onError(m_serialPort.errorString());
 }

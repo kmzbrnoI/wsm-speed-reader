@@ -24,6 +24,7 @@ private slots:
 
 signals:
 	void speedRead(unsigned int speed);
+	void onError(QString error);
 
 private:
 	QSerialPort m_serialPort;
