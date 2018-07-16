@@ -12,7 +12,8 @@ MeasureCar::MeasureCar(QString portname, QObject *parent)
 	connect(&m_serialPort, &QSerialPort::readyRead, this, &MeasureCar::handleReadyRead);
 	connect(&m_serialPort, &QSerialPort::errorOccurred, this, &MeasureCar::handleError);
 
-	m_serialPort.open(QIODevice::ReadOnly);
+	if (!m_serialPort.open(QIODevice::ReadOnly))
+		throw EOpenError(m_serialPort.errorString());
 }
 
 void MeasureCar::handleReadyRead() {

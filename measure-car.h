@@ -5,6 +5,13 @@
 #include <QSerialPort>
 #include <QTimer>
 
+#include "q-str-exception.h"
+
+class EOpenError : public QStrException {
+public:
+	EOpenError(const QString str) : QStrException(str) {}
+};
+
 class MeasureCar : public QObject {
 	Q_OBJECT
 

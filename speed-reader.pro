@@ -25,7 +25,8 @@ SOURCES += \
 HEADERS += \
         main-window.h \
         measure-car.h \
-        ui_main-window.h
+        ui_main-window.h \
+        q-str-exception.h
 
 FORMS += \
         main-window.ui
