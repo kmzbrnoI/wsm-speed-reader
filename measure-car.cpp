@@ -52,4 +52,14 @@ void MeasureCar::handleError(QSerialPort::SerialPortError serialPortError) {
 }
 
 void MeasureCar::parseMessage(QByteArray message) {
+	if ((message[0] >> 4) == 0) {
+		// Speed measured
+		if (0x01 == message[1]) {
+			// Speed measured via interval measuring.
+			uint16_t interval = (message[2] << 8) + message[3];
+			// TODO: calculate speed
+			unsigned int speed = interval;
+			speedRead(speed);
+		}
+	}
 }
