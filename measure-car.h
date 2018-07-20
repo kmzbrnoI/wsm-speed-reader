@@ -4,8 +4,11 @@
 #include <QByteArray>
 #include <QSerialPort>
 #include <QTimer>
+#include <QDateTime>
 
 #include "q-str-exception.h"
+
+const unsigned int _BUF_IN_TIMEOUT_MS = 300;
 
 class EOpenError : public QStrException {
 public:
@@ -29,6 +32,9 @@ signals:
 private:
 	QSerialPort m_serialPort;
 	QByteArray m_readData;
+	QDateTime m_receiveTimeout;
+
+	void parseMessage(QByteArray message);
 };
 
 #endif
