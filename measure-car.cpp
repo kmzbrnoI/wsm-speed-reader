@@ -8,6 +8,7 @@ MeasureCar::MeasureCar(QString portname, QObject *parent)
 	m_serialPort.setBaudRate(9600);
 	m_serialPort.setFlowControl(QSerialPort::FlowControl::HardwareControl);
 	m_serialPort.setPortName(portname);
+	m_serialPort.setReadBufferSize(256);
 
 	connect(&m_serialPort, &QSerialPort::readyRead, this, &MeasureCar::handleReadyRead);
 	connect(&m_serialPort, &QSerialPort::errorOccurred, this, &MeasureCar::handleError);
@@ -54,9 +55,10 @@ void MeasureCar::handleError(QSerialPort::SerialPortError serialPortError) {
 void MeasureCar::parseMessage(QByteArray message) {
 	if ((message[0] >> 4) == 0) {
 		// Speed measured
+
 		if (0x01 == message[1]) {
 			// Speed measured via interval measuring.
-			uint16_t interval = (message[2] << 8) + message[3];
+			uint16_t interval = (uint8_t)(message[2] << 8) + (uint8_t)message[3];
 			// TODO: calculate speed
 			unsigned int speed = interval;
 			speedRead(speed);
