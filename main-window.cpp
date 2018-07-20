@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui.setupUi(this);
 
 	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
+	QObject::connect(ui.le_portname, SIGNAL(returnPressed()), this, SLOT(b_connect_handle()));
 }
 
 MainWindow::~MainWindow() {}
