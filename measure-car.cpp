@@ -40,7 +40,7 @@ void MeasureCar::handleReadyRead() {
 
 		QByteArray message;
 		message.reserve(length);
-		memcpy(message.data(), m_readData.constData(), length);
+		message.setRawData(m_readData.data(), length); // will not copy, we must preserve m_readData!
 		parseMessage(message);
 		m_readData.remove(0, length);
 	}
