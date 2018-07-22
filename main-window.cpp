@@ -9,13 +9,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
 	QObject::connect(ui.le_portname, SIGNAL(returnPressed()), this, SLOT(b_connect_handle()));
+
+	QObject::connect(ui.b_scale_update, SIGNAL(released()), this, SLOT(b_scale_update_handle()));
 }
 
 MainWindow::~MainWindow() {}
 
 void MainWindow::connect() {
 	try {
-		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text());
+		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text(), ui.sb_scale->value());
 		QObject::connect(m_mc.get(), SIGNAL(speedRead(unsigned int)), this, SLOT(mc_speedRead(unsigned int)));
 		QObject::connect(m_mc.get(), SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
 		ui.b_connect->setText("Disconnect");
@@ -57,4 +59,17 @@ void MainWindow::mc_onError(QString error) {
 		QMessageBox::Ok
 	);
 	m.exec();
+}
+
+void MainWindow::b_scale_update_handle() {
+	QMessageBox m(
+		QMessageBox::Icon::Information,
+		"Info",
+		"Speed will be updated after next measurement.",
+		QMessageBox::Ok
+	);
+	m.exec();
+
+	if (nullptr != m_mc)
+		m_mc->scale = ui.sb_scale->value();
 }
