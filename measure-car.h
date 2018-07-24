@@ -20,8 +20,9 @@ class MeasureCar : public QObject {
 
 public:
 	explicit MeasureCar(QString portname, unsigned int scale=120,
-	                    QObject *parent = nullptr);
+	                    double wheelDiameter = 8, QObject *parent = nullptr);
 	unsigned int scale;
+	double wheelDiameter; // unit: mm
 
 private slots:
 	void handleReadyRead();
@@ -32,9 +33,8 @@ signals:
 	void onError(QString error);
 
 private:
-	const unsigned int F_CPU = 3686400; // Hz
+	const unsigned int F_CPU = 3686400; // unit: Hz
 	const unsigned int PSK = 64;
-	const unsigned int AXLE_DIAMETER = 8; // mm
 	const unsigned int HOLE_COUNT = 8;
 
 	QSerialPort m_serialPort;

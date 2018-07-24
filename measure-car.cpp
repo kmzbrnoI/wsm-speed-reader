@@ -4,8 +4,8 @@
 
 #include "measure-car.h"
 
-MeasureCar::MeasureCar(QString portname, unsigned int scale, QObject *parent)
-	: QObject(parent), scale(scale) {
+MeasureCar::MeasureCar(QString portname, unsigned int scale, double wheelDiameter, QObject *parent)
+	: QObject(parent), scale(scale), wheelDiameter(wheelDiameter) {
 	m_serialPort.setBaudRate(9600);
 	m_serialPort.setFlowControl(QSerialPort::FlowControl::HardwareControl);
 	m_serialPort.setPortName(portname);
@@ -61,7 +61,7 @@ void MeasureCar::parseMessage(QByteArray message) {
 			// Speed measured via interval measuring.
 			uint16_t interval = (uint8_t)(message[2] << 8) + (uint8_t)message[3];
 
-			unsigned int speed = ((double)M_PI * F_CPU * 3.6 * scale) /
+			unsigned int speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale) /
 			                     (HOLE_COUNT * PSK * interval);
 
 			speedRead(speed);

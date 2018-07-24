@@ -19,6 +19,7 @@ private slots:
 	void b_scale_update_handle();
 	void mc_speedRead(unsigned int speed);
 	void mc_onError(QString error);
+	void b_calculate_handle();
 
 private:
 	Ui_MainWindow ui;

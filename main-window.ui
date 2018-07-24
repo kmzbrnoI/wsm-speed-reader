@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>381</width>
-    <height>292</height>
+    <height>322</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,7 +26,7 @@
       <x>10</x>
       <y>10</y>
       <width>361</width>
-      <height>91</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="title">
@@ -35,9 +35,9 @@
     <widget class="QLineEdit" name="le_portname">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>130</x>
        <y>30</y>
-       <width>171</width>
+       <width>131</width>
        <height>22</height>
       </rect>
      </property>
@@ -96,7 +96,7 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>68</x>
+       <x>110</x>
        <y>60</y>
        <width>21</width>
        <height>21</height>
@@ -114,9 +114,9 @@
     <widget class="QSpinBox" name="sb_scale">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>130</x>
        <y>60</y>
-       <width>171</width>
+       <width>131</width>
        <height>23</height>
       </rect>
      </property>
@@ -134,10 +134,13 @@
      <property name="geometry">
       <rect>
        <x>270</x>
-       <y>60</y>
+       <y>90</y>
        <width>81</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Update scale and wheen diameter"/>
      </property>
      <property name="text">
       <string>Update</string>
@@ -152,14 +155,68 @@
       <bool>false</bool>
      </property>
     </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Wheel diameter:&lt;br&gt;[mm]</string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="dsb_diameter">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>90</y>
+       <width>131</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="minimum">
+      <double>2.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>8.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="b_calc_diam">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>60</y>
+       <width>81</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string extracomment="Calculate wheel diamater based on scale"/>
+     </property>
+     <property name="toolTipDuration">
+      <number>5</number>
+     </property>
+     <property name="statusTip">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Calc. diam.</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="gb_speed">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>150</y>
       <width>361</width>
-      <height>151</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="title">
@@ -206,6 +263,14 @@
   <widget class="QStatusBar" name="sb_main"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>le_portname</tabstop>
+  <tabstop>b_connect</tabstop>
+  <tabstop>sb_scale</tabstop>
+  <tabstop>b_calc_diam</tabstop>
+  <tabstop>dsb_diameter</tabstop>
+  <tabstop>b_scale_update</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
