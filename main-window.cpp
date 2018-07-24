@@ -1,11 +1,19 @@
 #include <QMessageBox>
+#include <QSettings>
 
 #include "main-window.h"
+
+const QString config_fn = "config.ini";
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent) {
 	ui.setupUi(this);
 	this->setFixedSize(this->size());
+
+	QSettings s(config_fn, QSettings::IniFormat);
+	ui.le_portname->setText(s.value("port", "/dev/ttyUSB0").toString());
+	ui.sb_scale->setValue(s.value("scale", 120).toInt());
+	ui.dsb_diameter->setValue(s.value("diameter", 8).toDouble());
 
 	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
 	QObject::connect(ui.le_portname, SIGNAL(returnPressed()), this, SLOT(b_connect_handle()));
@@ -17,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow() {}
 
 void MainWindow::connect() {
+	QSettings s(config_fn, QSettings::IniFormat);
+	s.setValue("port", ui.le_portname->text());
+
 	try {
 		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text(), ui.sb_scale->value(), ui.dsb_diameter->value());
 		QObject::connect(m_mc.get(), SIGNAL(speedRead(unsigned int)), this, SLOT(mc_speedRead(unsigned int)));
@@ -70,6 +81,10 @@ void MainWindow::b_scale_update_handle() {
 		QMessageBox::Ok
 	);
 	m.exec();
+
+	QSettings s(config_fn, QSettings::IniFormat);
+	s.setValue("scale", ui.sb_scale->value());
+	s.setValue("diameter", ui.dsb_diameter->value());
 
 	if (nullptr != m_mc) {
 		m_mc->scale = ui.sb_scale->value();
