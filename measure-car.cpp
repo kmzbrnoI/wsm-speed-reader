@@ -54,7 +54,11 @@ void MeasureCar::handleError(QSerialPort::SerialPortError serialPortError) {
 }
 
 void MeasureCar::parseMessage(QByteArray message) {
-	if ((message[0] >> 4) == 0) {
+	const uint8_t MSG_SPEED = 0;
+	const uint8_t MSG_BATTERY = 1;
+
+	uint8_t type = message[0] >> 4;
+	if (type == MSG_SPEED) {
 		// Speed measured
 
 		if (0x01 == message[1]) {
@@ -66,5 +70,13 @@ void MeasureCar::parseMessage(QByteArray message) {
 
 			speedRead(speed);
 		}
+	} else if (type == MSG_BATTERY) {
+		uint16_t measured = ((message[1] & 0x03) << 8) + message[2];
+		double voltage = (measured / 1024) * 4.84;
+		batteryRead(voltage);
+
+		bool critical = message[1] >> 7;
+		if (critical)
+			batteryCritical();
 	}
 }

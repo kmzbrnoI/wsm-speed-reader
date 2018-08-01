@@ -31,6 +31,8 @@ private slots:
 signals:
 	void speedRead(unsigned int speed);
 	void onError(QString error);
+	void batteryRead(double voltage);
+	void batteryCritical(); // device will automatically disconnect when this event happens
 
 private:
 	const unsigned int F_CPU = 3686400; // unit: Hz

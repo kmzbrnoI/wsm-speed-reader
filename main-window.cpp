@@ -32,6 +32,8 @@ void MainWindow::connect() {
 		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text(), ui.sb_scale->value(), ui.dsb_diameter->value());
 		QObject::connect(m_mc.get(), SIGNAL(speedRead(unsigned int)), this, SLOT(mc_speedRead(unsigned int)));
 		QObject::connect(m_mc.get(), SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
+		QObject::connect(m_mc.get(), SIGNAL(batteryRead(double)), this, SLOT(mc_batteryRead(double)));
+		QObject::connect(m_mc.get(), SIGNAL(batteryCritical()), this, SLOT(mc_batteryCritical()));
 		ui.b_connect->setText("Disconnect");
 		ui.le_portname->setEnabled(false);
 	} catch (const EOpenError& e) {
@@ -96,3 +98,11 @@ void MainWindow::b_calculate_handle() {
 	const unsigned int REAL_WHEEL_DIAM = 1000;
 	ui.dsb_diameter->setValue((double)REAL_WHEEL_DIAM / ui.sb_scale->value());
 }
+
+void MainWindow::mc_batteryRead(double voltage) {
+	(void)voltage;
+}
+
+void MainWindow::mc_batteryCritical() {
+}
+

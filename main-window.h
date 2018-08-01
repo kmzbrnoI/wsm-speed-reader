@@ -20,6 +20,8 @@ private slots:
 	void mc_speedRead(unsigned int speed);
 	void mc_onError(QString error);
 	void b_calculate_handle();
+	void mc_batteryRead(double voltage);
+	void mc_batteryCritical();
 
 private:
 	Ui_MainWindow ui;
