@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	QObject::connect(ui.b_scale_update, SIGNAL(released()), this, SLOT(b_scale_update_handle()));
 	QObject::connect(ui.b_calc_diam, SIGNAL(released()), this, SLOT(b_calculate_handle()));
+
+	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V]");
 }
 
 MainWindow::~MainWindow() {}
@@ -52,6 +54,7 @@ void MainWindow::disconnect() {
 	ui.b_connect->setText("Connect");
 	ui.le_portname->setEnabled(true);
 	ui.l_speed->setText("??");
+	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V]");
 }
 
 void MainWindow::b_connect_handle() {
@@ -100,9 +103,20 @@ void MainWindow::b_calculate_handle() {
 }
 
 void MainWindow::mc_batteryRead(double voltage) {
-	(void)voltage;
+	QString text;
+	text.sprintf("Battery: %4.2f V [3.5 – 4.2 V]", voltage);
+	ui.sb_main->showMessage(text);
 }
 
 void MainWindow::mc_batteryCritical() {
+	disconnect();
+
+	QMessageBox m(
+		QMessageBox::Icon::Warning,
+		"Warning",
+		"Battery level critical, device is shutting down!",
+		QMessageBox::Ok
+	);
+	m.exec();
 }
 
