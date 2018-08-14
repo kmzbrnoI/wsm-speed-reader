@@ -109,8 +109,6 @@ void MainWindow::mc_batteryRead(double voltage) {
 }
 
 void MainWindow::mc_batteryCritical() {
-	disconnect();
-
 	QMessageBox m(
 		QMessageBox::Icon::Warning,
 		"Warning",
