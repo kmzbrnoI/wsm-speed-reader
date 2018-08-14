@@ -32,7 +32,7 @@ void MeasureCar::handleReadyRead() {
 		unsigned int length = (m_readData[0] & 0x0F)+2; // including header byte & xor
 		uint8_t x = 0;
 		for (uint i = 0; i < length; i++)
-            x ^= m_readData[i] & 0x7F;
+			x ^= m_readData[i] & 0x7F;
 
 		if (x != 0) {
 			// XOR error
@@ -57,21 +57,25 @@ void MeasureCar::parseMessage(QByteArray message) {
 	const uint8_t MSG_SPEED = 0x1;
 	const uint8_t MSG_BATTERY = 0x2;
 
-    uint8_t type = ((uint8_t)message[0] >> 4) & 0x7;
+	uint8_t type = ((uint8_t)message[0] >> 4) & 0x7;
 	if (type == MSG_SPEED) {
 		// Speed measured
 
-        if (0x81 == (uint8_t)message[1]) {
+		if (0x81 == (uint8_t)message[1]) {
 			// Speed measured via interval measuring.
 			uint16_t interval = \
-                (((uint8_t)message[2] & 0x03) << 14) | \
-                (((uint8_t)message[3] & 0x7F) << 7) |  \
-                ((uint8_t)message[4] & 0x7F);
+				(((uint8_t)message[2] & 0x03) << 14) | \
+				(((uint8_t)message[3] & 0x7F) << 7) |  \
+				((uint8_t)message[4] & 0x7F);
 
-			unsigned int speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale) /
-			                     (HOLE_COUNT * PSK * interval);
+			if (interval == 0xFFFF)
+				speedRead(0);
+			else {
+				unsigned int speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale) /
+				                     (HOLE_COUNT * PSK * interval);
 
-			speedRead(speed);
+				speedRead(speed);
+			}
 		}
 	} else if (type == MSG_BATTERY) {
 		uint16_t measured = ((message[1] & 0x03) << 8) + message[2];
