@@ -71,7 +71,7 @@ void MeasureCar::parseMessage(QByteArray message) {
 			if (interval == 0xFFFF)
 				speedRead(0);
 			else {
-				unsigned int speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale) /
+				unsigned int speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale / 1000) /
 				                     (HOLE_COUNT * PSK * interval);
 
 				speedRead(speed);
