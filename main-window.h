@@ -17,7 +17,7 @@ public:
 private slots:
 	void b_connect_handle();
 	void b_scale_update_handle();
-	void mc_speedRead(unsigned int speed, uint16_t speed_raw);
+	void mc_speedRead(double speed, uint16_t speed_raw);
 	void mc_onError(QString error);
 	void b_calculate_handle();
 	void mc_batteryRead(double voltage, uint16_t voltage_raw);

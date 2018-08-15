@@ -29,7 +29,7 @@ private slots:
 	void handleError(QSerialPort::SerialPortError error);
 
 signals:
-	void speedRead(unsigned int speed, uint16_t speed_raw);
+	void speedRead(double speed, uint16_t speed_raw);
 	void onError(QString error);
 	void batteryRead(double voltage, uint16_t voltage_raw);
 	void batteryCritical(); // device will automatically disconnect when this event happens

@@ -32,7 +32,7 @@ void MainWindow::connect() {
 
 	try {
 		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text(), ui.sb_scale->value(), ui.dsb_diameter->value());
-		QObject::connect(m_mc.get(), SIGNAL(speedRead(unsigned int, uint16_t)), this, SLOT(mc_speedRead(unsigned int, uint16_t)));
+		QObject::connect(m_mc.get(), SIGNAL(speedRead(double, uint16_t)), this, SLOT(mc_speedRead(double, uint16_t)));
 		QObject::connect(m_mc.get(), SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
 		QObject::connect(m_mc.get(), SIGNAL(batteryRead(double, uint16_t)), this, SLOT(mc_batteryRead(double, uint16_t)));
 		QObject::connect(m_mc.get(), SIGNAL(batteryCritical()), this, SLOT(mc_batteryCritical()));
@@ -53,8 +53,8 @@ void MainWindow::disconnect() {
 	m_mc = nullptr;
 	ui.b_connect->setText("Connect");
 	ui.le_portname->setEnabled(true);
-	ui.l_speed->setText("??");
-	ui.l_speed_raw->setText("??");
+	ui.l_speed->setText("??.?");
+	ui.l_speed_raw->setText("?");
 	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
 }
 
@@ -65,8 +65,8 @@ void MainWindow::b_connect_handle() {
 		connect();
 }
 
-void MainWindow::mc_speedRead(unsigned int speed, uint16_t speed_raw) {
-	ui.l_speed->setText(QString::number(speed));
+void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
+	ui.l_speed->setText(QString::number(speed, 'f', 1));
 	ui.l_speed_raw->setText("(" + QString::number(speed_raw) + ")");
 }
 

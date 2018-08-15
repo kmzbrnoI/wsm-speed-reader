@@ -71,15 +71,15 @@ void MeasureCar::parseMessage(QByteArray message) {
 			if (interval == 0xFFFF)
 				speedRead(0, 0xFFFF);
 			else {
-				unsigned int speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale / 1000) /
-				                     (HOLE_COUNT * PSK * interval);
+				double speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale / 1000) /
+				               (HOLE_COUNT * PSK * interval);
 
 				speedRead(speed, interval);
 			}
 		}
 	} else if (type == MSG_BATTERY) {
 		uint16_t measured = ((uint8_t)(message[1] & 0x07) << 7) | ((uint8_t)message[2] & 0x7F);
-		double voltage = (measured * 4.4 / 1024);
+		double voltage = (measured * 4.75 / 1024);
 		batteryRead(voltage, measured);
 
 		bool critical = (message[1] >> 6) & 0x1;
