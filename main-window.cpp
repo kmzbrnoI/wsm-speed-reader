@@ -1,9 +1,11 @@
 #include <QMessageBox>
 #include <QSettings>
+#include <QColor>
 
 #include "main-window.h"
 
 const QString config_fn = "config.ini";
+const unsigned int BLINK_TIMEOUT = 250; // ms
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent) {
@@ -56,6 +58,7 @@ void MainWindow::disconnect() {
 	ui.l_speed->setText("??.?");
 	ui.l_speed_raw->setText("?");
 	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
+	status_set_color(ui.l_speed->palette().color(QPalette::WindowText));
 }
 
 void MainWindow::b_connect_handle() {
@@ -68,6 +71,11 @@ void MainWindow::b_connect_handle() {
 void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 	ui.l_speed->setText(QString::number(speed, 'f', 1));
 	ui.l_speed_raw->setText("(" + QString::number(speed_raw) + ")");
+
+	if (m_canBlink < QDateTime::currentDateTime()) {
+		status_blink();
+		m_canBlink = QDateTime::currentDateTime().addMSecs(BLINK_TIMEOUT);
+	}
 }
 
 void MainWindow::mc_onError(QString error) {
@@ -123,4 +131,19 @@ void MainWindow::mc_batteryCritical() {
 		QMessageBox::Ok
 	);
 	m.exec();
+}
+
+void MainWindow::status_set_color(QColor color) {
+	QPalette palette = ui.l_alive->palette();
+	palette.setColor(QPalette::WindowText, color);
+	ui.l_alive->setPalette(palette);
+}
+
+void MainWindow::status_blink() {
+	QPalette palette = ui.l_alive->palette();
+	QColor color = palette.color(QPalette::WindowText);
+	if (color == Qt::gray)
+		status_set_color(palette.color(QPalette::Window));
+	else
+		status_set_color(Qt::gray);
 }

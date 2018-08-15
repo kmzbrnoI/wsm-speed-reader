@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <memory>
+#include <QColor>
+#include <QDateTime>
 
 #include "ui_main-window.h"
 #include "measure-car.h"
@@ -26,9 +28,12 @@ private slots:
 private:
 	Ui_MainWindow ui;
 	std::unique_ptr<MeasureCar> m_mc;
+	QDateTime m_canBlink;
 
 	void connect();
 	void disconnect();
+	void status_set_color(QColor color);
+	void status_blink();
 
 };
 
