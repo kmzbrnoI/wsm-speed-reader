@@ -34,7 +34,7 @@ signals:
 	void onError(QString error);
 	void batteryRead(double voltage, uint16_t voltage_raw);
 	void batteryCritical(); // device will automatically disconnect when this event happens
-	void distanceRead(double distance);
+	void distanceRead(double distance, uint32_t distance_raw);
 
 private:
 	const unsigned int F_CPU = 3686400; // unit: Hz

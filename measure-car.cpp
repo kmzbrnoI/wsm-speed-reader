@@ -87,7 +87,7 @@ void MeasureCar::parseMessage(QByteArray message) {
 
 			uint32_t distDelta = m_dist - m_distStart;
 			double distRealDelta = (distDelta * (double)M_PI * wheelDiameter) / (1000 * HOLE_COUNT);
-			distanceRead(distRealDelta);
+			distanceRead(distRealDelta, distDelta);
 
 		}
 	} else if (type == MSG_BATTERY) {
