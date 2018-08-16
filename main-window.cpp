@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	QObject::connect(ui.b_scale_update, SIGNAL(released()), this, SLOT(b_scale_update_handle()));
 	QObject::connect(ui.b_calc_diam, SIGNAL(released()), this, SLOT(b_calculate_handle()));
 
+	QObject::connect(ui.b_dist_reset, SIGNAL(released()), this, SLOT(b_dist_reset_handle()));
+
 	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
 }
 
@@ -38,6 +40,7 @@ void MainWindow::connect() {
 		QObject::connect(m_mc.get(), SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
 		QObject::connect(m_mc.get(), SIGNAL(batteryRead(double, uint16_t)), this, SLOT(mc_batteryRead(double, uint16_t)));
 		QObject::connect(m_mc.get(), SIGNAL(batteryCritical()), this, SLOT(mc_batteryCritical()));
+		QObject::connect(m_mc.get(), SIGNAL(distanceRead(double, uint32_t)), this, SLOT(mc_distanceRead(double, uint32_t)));
 		ui.b_connect->setText("Disconnect");
 		ui.le_portname->setEnabled(false);
 	} catch (const EOpenError& e) {
@@ -57,6 +60,8 @@ void MainWindow::disconnect() {
 	ui.le_portname->setEnabled(true);
 	ui.l_speed->setText("??.?");
 	ui.l_speed_raw->setText("?");
+	ui.l_dist->setText("??.??");
+	ui.l_dist_raw->setText("?");
 	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
 	status_set_color(ui.l_speed->palette().color(QPalette::WindowText));
 }
@@ -133,6 +138,11 @@ void MainWindow::mc_batteryCritical() {
 	m.exec();
 }
 
+void MainWindow::mc_distanceRead(double distance, uint32_t distance_raw) {
+	ui.l_dist->setText(QString::number(distance, 'f', 2));
+	ui.l_dist_raw->setText("(" + QString::number(distance_raw) + ")");
+}
+
 void MainWindow::status_set_color(QColor color) {
 	QPalette palette = ui.l_alive->palette();
 	palette.setColor(QPalette::WindowText, color);
@@ -146,4 +156,11 @@ void MainWindow::status_blink() {
 		status_set_color(palette.color(QPalette::Window));
 	else
 		status_set_color(Qt::gray);
+}
+
+void MainWindow::b_dist_reset_handle() {
+	if (m_mc) {
+		m_mc->distanceReset();
+		mc_distanceRead(0, 0);
+	}
 }

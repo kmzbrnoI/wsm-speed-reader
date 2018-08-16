@@ -24,6 +24,8 @@ private slots:
 	void b_calculate_handle();
 	void mc_batteryRead(double voltage, uint16_t voltage_raw);
 	void mc_batteryCritical();
+	void mc_distanceRead(double distance, uint32_t distance_raw);
+	void b_dist_reset_handle();
 
 private:
 	Ui_MainWindow ui;
