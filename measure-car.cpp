@@ -5,7 +5,7 @@
 #include "measure-car.h"
 
 MeasureCar::MeasureCar(QString portname, unsigned int scale, double wheelDiameter, QObject *parent)
-	: QObject(parent), scale(scale), wheelDiameter(wheelDiameter) {
+	: QObject(parent), scale(scale), wheelDiameter(wheelDiameter), m_distStart(0) {
 	m_serialPort.setBaudRate(9600);
 	m_serialPort.setFlowControl(QSerialPort::FlowControl::HardwareControl);
 	m_serialPort.setPortName(portname);
@@ -76,6 +76,19 @@ void MeasureCar::parseMessage(QByteArray message) {
 
 				speedRead(speed, interval);
 			}
+		} else if (0x82 == (uint8_t)message[1]) {
+			// distance measured
+			m_dist = \
+				(((uint8_t)message[2] & 0x0F) << 28) | \
+				(((uint8_t)message[3] & 0x7F) << 21) | \
+				(((uint8_t)message[4] & 0x7F) << 14) | \
+				(((uint8_t)message[5] & 0x7F) << 7) |  \
+				((uint8_t)message[6] & 0x7F);
+
+			uint32_t distDelta = m_dist - m_distStart;
+			double distRealDelta = (distDelta * (double)M_PI * wheelDiameter) / (1000 * HOLE_COUNT);
+			distanceRead(distRealDelta);
+
 		}
 	} else if (type == MSG_BATTERY) {
 		uint16_t measured = ((uint8_t)(message[1] & 0x07) << 7) | ((uint8_t)message[2] & 0x7F);
@@ -86,4 +99,8 @@ void MeasureCar::parseMessage(QByteArray message) {
 		if (critical)
 			batteryCritical();
 	}
+}
+
+void MeasureCar::distanceReset() {
+	m_distStart = m_dist;
 }

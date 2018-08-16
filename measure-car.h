@@ -23,6 +23,7 @@ public:
 	                    double wheelDiameter = 8, QObject *parent = nullptr);
 	unsigned int scale;
 	double wheelDiameter; // unit: mm
+	void distanceReset();
 
 private slots:
 	void handleReadyRead();
@@ -33,6 +34,7 @@ signals:
 	void onError(QString error);
 	void batteryRead(double voltage, uint16_t voltage_raw);
 	void batteryCritical(); // device will automatically disconnect when this event happens
+	void distanceRead(double distance);
 
 private:
 	const unsigned int F_CPU = 3686400; // unit: Hz
@@ -42,6 +44,8 @@ private:
 	QSerialPort m_serialPort;
 	QByteArray m_readData;
 	QDateTime m_receiveTimeout;
+	uint32_t m_distStart;
+	uint32_t m_dist;
 
 	void parseMessage(QByteArray message);
 };
