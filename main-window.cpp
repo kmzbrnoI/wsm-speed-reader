@@ -1,6 +1,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QColor>
+#include <fstream>
 
 #include "main-window.h"
 
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui.le_portname->setText(s.value("port", "/dev/ttyUSB0").toString());
 	ui.sb_scale->setValue(s.value("scale", 120).toInt());
 	ui.dsb_diameter->setValue(s.value("diameter", 8).toDouble());
+	ui.le_log_filename->setText(s.value("log_fn", "speed.csv").toString());
 
 	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
 	QObject::connect(ui.le_portname, SIGNAL(returnPressed()), this, SLOT(b_connect_handle()));
@@ -24,11 +26,15 @@ MainWindow::MainWindow(QWidget *parent) :
 	QObject::connect(ui.b_calc_diam, SIGNAL(released()), this, SLOT(b_calculate_handle()));
 
 	QObject::connect(ui.b_dist_reset, SIGNAL(released()), this, SLOT(b_dist_reset_handle()));
+	QObject::connect(ui.chb_log, SIGNAL(clicked()), this, SLOT(chb_log_change()));
 
 	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
 }
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow() {
+	QSettings s(config_fn, QSettings::IniFormat);
+	s.setValue("log_fn", ui.le_log_filename->text());
+}
 
 void MainWindow::connect() {
 	QSettings s(config_fn, QSettings::IniFormat);
@@ -80,6 +86,12 @@ void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 	if (m_canBlink < QDateTime::currentDateTime()) {
 		status_blink();
 		m_canBlink = QDateTime::currentDateTime().addMSecs(BLINK_TIMEOUT);
+	}
+
+	if (ui.chb_log->checkState() == Qt::Checked) {
+		std::ofstream out(ui.le_log_filename->text().toLatin1().data(), std::ofstream::app);
+		out << QTime::currentTime().toString("hh:mm:ss,zzz").toLatin1().data() << ";";
+		out << speed << ";" << speed_raw << "\n";
 	}
 }
 
@@ -162,5 +174,12 @@ void MainWindow::b_dist_reset_handle() {
 	if (m_mc) {
 		m_mc->distanceReset();
 		mc_distanceRead(0, 0);
+	}
+}
+
+void MainWindow::chb_log_change() {
+	if (ui.chb_log->checkState() == Qt::Checked) {
+		// empty log file
+		std::ofstream out(ui.le_log_filename->text().toLatin1().data());
 	}
 }

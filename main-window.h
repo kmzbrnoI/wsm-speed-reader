@@ -26,6 +26,7 @@ private slots:
 	void mc_batteryCritical();
 	void mc_distanceRead(double distance, uint32_t distance_raw);
 	void b_dist_reset_handle();
+	void chb_log_change();
 
 private:
 	Ui_MainWindow ui;

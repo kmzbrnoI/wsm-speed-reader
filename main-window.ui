@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>511</width>
-    <height>393</height>
+    <height>433</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -216,7 +216,7 @@
       <x>10</x>
       <y>150</y>
       <width>491</width>
-      <height>141</height>
+      <height>181</height>
      </rect>
     </property>
     <property name="title">
@@ -292,12 +292,35 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QCheckBox" name="chb_log">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>150</y>
+       <width>151</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Log speed to csv file:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="le_log_filename">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>150</y>
+       <width>311</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="gb_distance">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
+      <y>340</y>
       <width>491</width>
       <height>61</height>
      </rect>
