@@ -28,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	QObject::connect(ui.b_dist_reset, SIGNAL(released()), this, SLOT(b_dist_reset_handle()));
 	QObject::connect(ui.chb_log, SIGNAL(clicked()), this, SLOT(chb_log_change()));
 
+	t_disconnect.setSingleShot(true);
+	QObject::connect(&t_disconnect, SIGNAL(timeout()), this, SLOT(t_disconnect_tick()));
+
 	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
 }
 
@@ -96,13 +99,10 @@ void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 }
 
 void MainWindow::mc_onError(QString error) {
-	QMessageBox m(
-		QMessageBox::Icon::Warning,
-		"Error!",
-		"Serial port error:\n" + error,
-		QMessageBox::Ok
-	);
-	m.exec();
+	(void)error;
+
+	if (!t_disconnect.isActive())
+		t_disconnect.start(100);
 }
 
 void MainWindow::b_scale_update_handle() {
@@ -182,4 +182,16 @@ void MainWindow::chb_log_change() {
 		// empty log file
 		std::ofstream out(ui.le_log_filename->text().toLatin1().data());
 	}
+}
+
+void MainWindow::t_disconnect_tick() {
+	disconnect();
+
+	QMessageBox m(
+		QMessageBox::Icon::Warning,
+		"Error!",
+		"Serial port error!",
+		QMessageBox::Ok
+	);
+	m.exec();
 }
