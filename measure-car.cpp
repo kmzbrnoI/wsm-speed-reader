@@ -12,7 +12,7 @@ MeasureCar::MeasureCar(QString portname, unsigned int scale, double wheelDiamete
 	m_serialPort.setReadBufferSize(256);
 
 	connect(&m_serialPort, &QSerialPort::readyRead, this, &MeasureCar::handleReadyRead);
-	//connect(&m_serialPort, &QSerialPort::errorOccured, this, &MeasureCar::handleError);
+	connect(&m_serialPort, &QSerialPort::errorOccured, this, &MeasureCar::handleError);
 
 	if (!m_serialPort.open(QIODevice::ReadOnly))
 		throw EOpenError(m_serialPort.errorString());
@@ -36,15 +36,15 @@ void MeasureCar::handleReadyRead() {
 
 		if (x != 0) {
 			// XOR error
-			m_readData.remove(0, length);
+			m_readData.remove(0, static_cast<int>(length));
 			continue;
 		}
 
 		QByteArray message;
-		message.reserve(length);
+		message.reserve(static_cast<int>(length));
 		message.setRawData(m_readData.data(), length); // will not copy, we must preserve m_readData!
 		parseMessage(message);
-		m_readData.remove(0, length);
+		m_readData.remove(0, static_cast<int>(length));
 	}
 }
 
@@ -71,7 +71,7 @@ void MeasureCar::parseMessage(QByteArray message) {
 			if (interval == 0xFFFF)
 				speedRead(0, 0xFFFF);
 			else {
-				double speed = ((double)M_PI * wheelDiameter * F_CPU * 3.6 * scale / 1000) /
+				double speed = (static_cast<double>(M_PI) * wheelDiameter * F_CPU * 3.6 * scale / 1000) /
 				               (HOLE_COUNT * PSK * interval);
 
 				speedRead(speed, interval);
