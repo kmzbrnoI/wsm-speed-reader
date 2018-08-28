@@ -1,6 +1,6 @@
 #include <QCoreApplication>
 #include <QSerialPort>
-#include <math.h>
+#include <QtMath>
 
 #include "measure-car.h"
 
