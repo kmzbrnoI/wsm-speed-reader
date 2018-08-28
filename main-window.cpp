@@ -126,7 +126,7 @@ void MainWindow::b_scale_update_handle() {
 
 void MainWindow::b_calculate_handle() {
 	const unsigned int REAL_WHEEL_DIAM = 1000;
-	ui.dsb_diameter->setValue((double)REAL_WHEEL_DIAM / ui.sb_scale->value());
+	ui.dsb_diameter->setValue(static_cast<double>(REAL_WHEEL_DIAM) / ui.sb_scale->value());
 }
 
 void MainWindow::mc_batteryRead(double voltage, uint16_t voltage_raw) {
