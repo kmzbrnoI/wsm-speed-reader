@@ -92,7 +92,7 @@ void MeasureCar::parseMessage(QByteArray message) {
 		}
 	} else if (type == MSG_BATTERY) {
 		uint16_t measured = ((uint8_t)(message[1] & 0x07) << 7) | ((uint8_t)message[2] & 0x7F);
-		double voltage = (measured * 4.75 / 1024);
+		double voltage = (measured * 4.587 / 1024);
 		batteryRead(voltage, measured);
 
 		bool critical = (message[1] >> 6) & 0x1;
