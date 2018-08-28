@@ -12,7 +12,7 @@ MeasureCar::MeasureCar(QString portname, unsigned int scale, double wheelDiamete
 	m_serialPort.setReadBufferSize(256);
 
 	connect(&m_serialPort, &QSerialPort::readyRead, this, &MeasureCar::handleReadyRead);
-	connect(&m_serialPort, &QSerialPort::errorOccurred, this, &MeasureCar::handleError);
+	//connect(&m_serialPort, &QSerialPort::errorOccured, this, &MeasureCar::handleError);
 
 	if (!m_serialPort.open(QIODevice::ReadOnly))
 		throw EOpenError(m_serialPort.errorString());
@@ -57,16 +57,16 @@ void MeasureCar::parseMessage(QByteArray message) {
 	const uint8_t MSG_SPEED = 0x1;
 	const uint8_t MSG_BATTERY = 0x2;
 
-	uint8_t type = ((uint8_t)message[0] >> 4) & 0x7;
+	uint8_t type = (static_cast<uint8_t>(message[0]) >> 4) & 0x7;
 	if (type == MSG_SPEED) {
 		// Speed measured
 
-		if (0x81 == (uint8_t)message[1]) {
+		if (0x81 == static_cast<uint8_t>(message[1])) {
 			// Speed measured via interval measuring.
 			uint16_t interval = \
-				(((uint8_t)message[2] & 0x03) << 14) | \
-				(((uint8_t)message[3] & 0x7F) << 7) |  \
-				((uint8_t)message[4] & 0x7F);
+					((static_cast<uint8_t>(message[2]) & 0x03) << 14) | \
+					((static_cast<uint8_t>(message[3]) & 0x7F) << 7) |  \
+					(static_cast<uint8_t>(message[4]) & 0x7F);
 
 			if (interval == 0xFFFF)
 				speedRead(0, 0xFFFF);
@@ -76,22 +76,22 @@ void MeasureCar::parseMessage(QByteArray message) {
 
 				speedRead(speed, interval);
 			}
-		} else if (0x82 == (uint8_t)message[1]) {
+		} else if (0x82 == static_cast<uint8_t>(message[1])) {
 			// distance measured
 			m_dist = \
-				(((uint8_t)message[2] & 0x0F) << 28) | \
-				(((uint8_t)message[3] & 0x7F) << 21) | \
-				(((uint8_t)message[4] & 0x7F) << 14) | \
-				(((uint8_t)message[5] & 0x7F) << 7) |  \
-				((uint8_t)message[6] & 0x7F);
+					((static_cast<uint8_t>(message[2]) & 0x0F) << 28) | \
+					((static_cast<uint8_t>(message[3]) & 0x7F) << 21) | \
+					((static_cast<uint8_t>(message[4]) & 0x7F) << 14) | \
+					((static_cast<uint8_t>(message[5]) & 0x7F) << 7) |  \
+					(static_cast<uint8_t>(message[6]) & 0x7F);
 
 			uint32_t distDelta = m_dist - m_distStart;
-			double distRealDelta = (distDelta * (double)M_PI * wheelDiameter) / (1000 * HOLE_COUNT);
+			double distRealDelta = (distDelta * static_cast<double>(M_PI) * wheelDiameter) / (1000 * HOLE_COUNT);
 			distanceRead(distRealDelta, distDelta);
 
 		}
 	} else if (type == MSG_BATTERY) {
-		uint16_t measured = ((uint8_t)(message[1] & 0x07) << 7) | ((uint8_t)message[2] & 0x7F);
+		uint16_t measured = (static_cast<uint8_t>(message[1] & 0x07) << 7) | (static_cast<uint8_t>(message[2]) & 0x7F);
 		double voltage = (measured * 4.587 / 1024);
 		batteryRead(voltage, measured);
 
