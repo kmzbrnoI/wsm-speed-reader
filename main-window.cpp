@@ -12,6 +12,9 @@ const unsigned int BLINK_TIMEOUT = 250; // ms
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
+	QString text;
+	text.sprintf("Speed Reader v%d.%d", VERSION_MAJOR, VERSION_MINOR);
+	this->setWindowTitle(text);
 	this->setFixedSize(this->size());
 
 	QSettings s(config_fn, QSettings::IniFormat);
