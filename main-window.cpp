@@ -93,7 +93,7 @@ void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 
 	if (ui.chb_log->checkState() == Qt::Checked) {
 		std::ofstream out(ui.le_log_filename->text().toLatin1().data(), std::ofstream::app);
-		out << QTime::currentTime().toString("hh:mm:ss,zzz").toLatin1().data() << ";";
+		out << QTime::currentTime().toString("hh:mm:ss.zzz").toLatin1().data() << ";";
 		out << speed << ";" << speed_raw << "\n";
 	}
 }
