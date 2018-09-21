@@ -35,6 +35,7 @@ private:
 	std::unique_ptr<MeasureCar> m_mc;
 	QDateTime m_canBlink;
 	QTimer t_disconnect;
+	QDateTime m_origin;
 
 	void connect();
 	void disconnect();

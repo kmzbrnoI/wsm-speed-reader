@@ -2,6 +2,7 @@
 #include <QSettings>
 #include <QColor>
 #include <fstream>
+#include <iomanip>
 
 #include "main-window.h"
 
@@ -9,7 +10,7 @@ const QString config_fn = "config.ini";
 const unsigned int BLINK_TIMEOUT = 250; // ms
 
 MainWindow::MainWindow(QWidget *parent) :
-	QMainWindow(parent) {
+	QMainWindow(parent), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
 	this->setFixedSize(this->size());
 
@@ -93,7 +94,9 @@ void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 
 	if (ui.chb_log->checkState() == Qt::Checked) {
 		std::ofstream out(ui.le_log_filename->text().toLatin1().data(), std::ofstream::app);
+
 		out << QTime::currentTime().toString("hh:mm:ss.zzz").toLatin1().data() << ";";
+		out << std::setprecision(4) << (double)m_origin.msecsTo(QDateTime::currentDateTime()) / 1000 << ";";
 		out << speed << ";" << speed_raw << "\n";
 	}
 }
