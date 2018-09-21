@@ -15,6 +15,15 @@ This application is developed in [QT](https://www.qt.io/).
 This SW was developed in `vim` using `make`. Downloads are available in
 *Releases* section.
 
+Howto build:
+
+```
+$ mkdir build
+$ cd build
+$ qmake ..
+$ make
+```
+
 ## Connecting to WSM
 
  * Windows: pair it with HC-05 module, serial port should be added
