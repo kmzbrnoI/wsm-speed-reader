@@ -12,7 +12,8 @@ MeasureCar::MeasureCar(QString portname, unsigned int scale, double wheelDiamete
 	m_serialPort.setReadBufferSize(256);
 
 	QObject::connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(handleReadyRead()));
-	QObject::connect(&m_serialPort, SIGNAL(errorOccured()), this, SLOT(handleError()));
+	QObject::connect(&m_serialPort, SIGNAL(errorOccurred(QSerialPort::SerialPortError)),
+	                 this, SLOT(handleError(QSerialPort::SerialPortError)));
 
 	if (!m_serialPort.open(QIODevice::ReadOnly))
 		throw EOpenError(m_serialPort.errorString());
