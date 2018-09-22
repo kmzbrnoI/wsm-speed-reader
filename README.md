@@ -1,5 +1,7 @@
 # WSM Speed Reader
 
+![Speed Reader Screenshot](doc/speed_reader_screenshot.png)
+
 WSM Speed Reader is a simple desktop application. It connects to the serial
 port of the *Wireless SpeedoMeter* and displays its speed.
 
