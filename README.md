@@ -20,6 +20,7 @@ This SW was developed in `vim` using `make`. Downloads are available in
 Howto build:
 
 ```
+$ uic main-window.ui > ui_main-window.h
 $ mkdir build
 $ cd build
 $ qmake ..
