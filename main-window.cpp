@@ -99,7 +99,7 @@ void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 		std::ofstream out(ui.le_log_filename->text().toLatin1().data(), std::ofstream::app);
 
 		out << QTime::currentTime().toString("hh:mm:ss.zzz").toLatin1().data() << ";";
-		out << std::setprecision(4) << (double)m_origin.msecsTo(QDateTime::currentDateTime()) / 1000 << ";";
+		out << std::fixed << std::setprecision(2) << (double)m_origin.msecsTo(QDateTime::currentDateTime()) / 1000 << ";";
 		out << speed << ";" << speed_raw << "\n";
 	}
 }
