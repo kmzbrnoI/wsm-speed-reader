@@ -154,6 +154,9 @@ void MainWindow::mc_batteryCritical() {
 		QMessageBox::Ok
 	);
 	m.exec();
+
+	if (!t_disconnect.isActive())
+		t_disconnect.start(100);
 }
 
 void MainWindow::mc_distanceRead(double distance, uint32_t distance_raw) {
