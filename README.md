@@ -19,6 +19,14 @@ This SW was developed in `vim` using `make`. Downloads are available in
 
 Howto build:
 
+Clone this repository (including submodules!):
+
+```
+git clone --recurse-submodules https://github.com/kmzbrnoI/wsm-speed-reader
+```
+
+And then build:
+
 ```
 $ uic main-window.ui > ui_main-window.h
 $ mkdir build
