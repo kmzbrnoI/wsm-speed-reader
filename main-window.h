@@ -8,7 +8,7 @@
 #include <QTimer>
 
 #include "ui_main-window.h"
-#include "measure-car.h"
+#include "lib/wsm/wsm.h"
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -32,7 +32,7 @@ private slots:
 
 private:
 	Ui_MainWindow ui;
-	std::unique_ptr<MeasureCar> m_mc;
+	Wsm::Wsm m_wsm;
 	QDateTime m_canBlink;
 	QTimer t_disconnect;
 	QDateTime m_origin;

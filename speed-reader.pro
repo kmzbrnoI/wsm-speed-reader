@@ -20,11 +20,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         main-window.cpp \
-        measure-car.cpp
+        lib/wsm/wsm.cpp
 
 HEADERS += \
         main-window.h \
-        measure-car.h \
+        lib/wsm/wsm.h \
         ui_main-window.h \
         q-str-exception.h
 

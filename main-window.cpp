@@ -23,6 +23,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui.dsb_diameter->setValue(s.value("diameter", 8).toDouble());
 	ui.le_log_filename->setText(s.value("log_fn", "speed.csv").toString());
 
+	// WSM init
+	m_wsm.scale = ui.sb_scale->value();
+	m_wsm.wheelDiameter = ui.dsb_diameter->value();
+	QObject::connect(&m_wsm, SIGNAL(speedRead(double, uint16_t)), this, SLOT(mc_speedRead(double, uint16_t)));
+	QObject::connect(&m_wsm, SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
+	QObject::connect(&m_wsm, SIGNAL(batteryRead(double, uint16_t)), this, SLOT(mc_batteryRead(double, uint16_t)));
+	QObject::connect(&m_wsm, SIGNAL(batteryCritical()), this, SLOT(mc_batteryCritical()));
+	QObject::connect(&m_wsm, SIGNAL(distanceRead(double, uint32_t)), this, SLOT(mc_distanceRead(double, uint32_t)));
+
+	// GUI init
 	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
 	QObject::connect(ui.le_portname, SIGNAL(returnPressed()), this, SLOT(b_connect_handle()));
 
@@ -48,15 +58,10 @@ void MainWindow::connect() {
 	s.setValue("port", ui.le_portname->text());
 
 	try {
-		m_mc = std::make_unique<MeasureCar>(ui.le_portname->text(), ui.sb_scale->value(), ui.dsb_diameter->value());
-		QObject::connect(m_mc.get(), SIGNAL(speedRead(double, uint16_t)), this, SLOT(mc_speedRead(double, uint16_t)));
-		QObject::connect(m_mc.get(), SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
-		QObject::connect(m_mc.get(), SIGNAL(batteryRead(double, uint16_t)), this, SLOT(mc_batteryRead(double, uint16_t)));
-		QObject::connect(m_mc.get(), SIGNAL(batteryCritical()), this, SLOT(mc_batteryCritical()));
-		QObject::connect(m_mc.get(), SIGNAL(distanceRead(double, uint32_t)), this, SLOT(mc_distanceRead(double, uint32_t)));
+		m_wsm.connect(ui.le_portname->text());
 		ui.b_connect->setText("Disconnect");
 		ui.le_portname->setEnabled(false);
-	} catch (const EOpenError& e) {
+	} catch (const Wsm::EOpenError& e) {
 		QMessageBox m(
 			QMessageBox::Icon::Warning,
 			"Error!",
@@ -68,7 +73,7 @@ void MainWindow::connect() {
 }
 
 void MainWindow::disconnect() {
-	m_mc = nullptr;
+	m_wsm.disconnect();
 	ui.b_connect->setText("Connect");
 	ui.le_portname->setEnabled(true);
 	ui.l_speed->setText("??.?");
@@ -80,7 +85,7 @@ void MainWindow::disconnect() {
 }
 
 void MainWindow::b_connect_handle() {
-	if (nullptr != m_mc)
+	if (m_wsm.connected())
 		disconnect();
 	else
 		connect();
@@ -107,7 +112,7 @@ void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 void MainWindow::mc_onError(QString error) {
 	(void)error;
 
-	if (!t_disconnect.isActive())
+	if (!t_disconnect.isActive() && m_wsm.connected())
 		t_disconnect.start(100);
 }
 
@@ -124,9 +129,9 @@ void MainWindow::b_scale_update_handle() {
 	s.setValue("scale", ui.sb_scale->value());
 	s.setValue("diameter", ui.dsb_diameter->value());
 
-	if (nullptr != m_mc) {
-		m_mc->scale = ui.sb_scale->value();
-		m_mc->wheelDiameter = ui.dsb_diameter->value();
+	if (m_wsm.connected()) {
+		m_wsm.scale = ui.sb_scale->value();
+		m_wsm.wheelDiameter = ui.dsb_diameter->value();
 	}
 }
 
@@ -156,7 +161,7 @@ void MainWindow::mc_batteryCritical() {
 	m.exec();
 
 	if (!t_disconnect.isActive())
-		t_disconnect.start(100);
+		t_disconnect.start(0);
 }
 
 void MainWindow::mc_distanceRead(double distance, uint32_t distance_raw) {
@@ -180,8 +185,8 @@ void MainWindow::status_blink() {
 }
 
 void MainWindow::b_dist_reset_handle() {
-	if (m_mc) {
-		m_mc->distanceReset();
+	if (m_wsm.connected()) {
+		m_wsm.distanceReset();
 		mc_distanceRead(0, 0);
 	}
 }
