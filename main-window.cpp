@@ -10,7 +10,7 @@ const QString config_fn = "config.ini";
 const unsigned int BLINK_TIMEOUT = 250; // ms
 
 MainWindow::MainWindow(QWidget *parent) :
-	QMainWindow(parent), m_origin(QDateTime::currentDateTime()) {
+	QMainWindow(parent), ui(), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
 	QString text;
 	text.sprintf("Speed Reader v%d.%d", VERSION_MAJOR, VERSION_MINOR);
@@ -169,7 +169,7 @@ void MainWindow::mc_distanceRead(double distance, uint32_t distance_raw) {
 	ui.l_dist_raw->setText("(" + QString::number(distance_raw) + ")");
 }
 
-void MainWindow::status_set_color(QColor color) {
+void MainWindow::status_set_color(const QColor& color) {
 	QPalette palette = ui.l_alive->palette();
 	palette.setColor(QPalette::WindowText, color);
 	ui.l_alive->setPalette(palette);
@@ -177,7 +177,7 @@ void MainWindow::status_set_color(QColor color) {
 
 void MainWindow::status_blink() {
 	QPalette palette = ui.l_alive->palette();
-	QColor color = palette.color(QPalette::WindowText);
+	const QColor& color = palette.color(QPalette::WindowText);
 	if (color == Qt::gray)
 		status_set_color(palette.color(QPalette::Window));
 	else

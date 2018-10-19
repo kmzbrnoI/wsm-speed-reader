@@ -39,7 +39,7 @@ private:
 
 	void connect();
 	void disconnect();
-	void status_set_color(QColor color);
+	void status_set_color(const QColor& color);
 	void status_blink();
 };
 
