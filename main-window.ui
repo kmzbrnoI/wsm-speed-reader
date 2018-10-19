@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Speed Meter</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="speed-reader.qrc">
+    <normaloff>:/icon/icon.svg</normaloff>:/icon/icon.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="gb_settings">
     <property name="geometry">
@@ -403,6 +407,8 @@
   <tabstop>dsb_diameter</tabstop>
   <tabstop>b_scale_update</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="speed-reader.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -33,6 +33,7 @@ FORMS += \
 
 CONFIG += c++14
 QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
+win32:RC_ICONS += icon/icon.ico
 
 QT += serialport
 
@@ -44,3 +45,5 @@ DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
 
 #Target version
 VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}
+
+RESOURCES += speed-reader.qrc
