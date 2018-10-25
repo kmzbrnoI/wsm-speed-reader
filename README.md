@@ -28,7 +28,6 @@ git clone --recurse-submodules https://github.com/kmzbrnoI/wsm-speed-reader
 And then build:
 
 ```
-$ uic main-window.ui > ui_main-window.h
 $ mkdir build
 $ cd build
 $ qmake ..
