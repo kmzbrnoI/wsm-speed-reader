@@ -18,22 +18,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        main-window.cpp \
-        lib/wsm/wsm.cpp
+	lib/wsm/wsm.cpp \
+	src/main.cpp \
+	src/main-window.cpp
 
 HEADERS += \
-        main-window.h \
-        lib/wsm/wsm.h \
-        ui_main-window.h \
-        q-str-exception.h
+	lib/wsm/wsm.h \
+	lib/q-str-exception.h \
+	src/main-window.h
 
 FORMS += \
-        main-window.ui
+	form/main-window.ui
 
 CONFIG += c++14
 QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
 win32:RC_ICONS += icon/icon.ico
+UI_DIR = src
 
 QT += serialport
 
