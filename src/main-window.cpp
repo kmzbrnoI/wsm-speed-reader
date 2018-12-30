@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	// WSM init
 	m_wsm.scale = ui.sb_scale->value();
 	m_wsm.wheelDiameter = ui.dsb_diameter->value();
+	m_wsm.ticksPerRevolution = s.value("ticks_per_revolution",
+		static_cast<unsigned>(m_wsm.DEFAULT_TICKS_PER_REVOLUTION)).toInt();
 	QObject::connect(&m_wsm, SIGNAL(speedRead(double, uint16_t)), this, SLOT(mc_speedRead(double, uint16_t)));
 	QObject::connect(&m_wsm, SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
 	QObject::connect(&m_wsm, SIGNAL(batteryRead(double, uint16_t)), this, SLOT(mc_batteryRead(double, uint16_t)));
@@ -51,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow() {
 	QSettings s(config_fn, QSettings::IniFormat);
 	s.setValue("log_fn", ui.le_log_filename->text());
+	s.setValue("ticks_per_revolution", static_cast<unsigned>(m_wsm.ticksPerRevolution));
 }
 
 void MainWindow::connect() {
