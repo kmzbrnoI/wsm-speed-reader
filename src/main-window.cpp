@@ -1,6 +1,6 @@
+#include <QColor>
 #include <QMessageBox>
 #include <QSettings>
-#include <QColor>
 #include <fstream>
 #include <iomanip>
 
@@ -9,8 +9,8 @@
 const QString config_fn = "config.ini";
 const unsigned int BLINK_TIMEOUT = 250; // ms
 
-MainWindow::MainWindow(QWidget *parent) :
-	QMainWindow(parent), ui(), m_origin(QDateTime::currentDateTime()) {
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
 	QString text;
 	text.sprintf("Speed Reader v%d.%d", VERSION_MAJOR, VERSION_MINOR);
@@ -26,13 +26,17 @@ MainWindow::MainWindow(QWidget *parent) :
 	// WSM init
 	m_wsm.scale = ui.sb_scale->value();
 	m_wsm.wheelDiameter = ui.dsb_diameter->value();
-	m_wsm.ticksPerRevolution = s.value("ticks_per_revolution",
-		static_cast<unsigned>(m_wsm.DEFAULT_TICKS_PER_REVOLUTION)).toInt();
-	QObject::connect(&m_wsm, SIGNAL(speedRead(double, uint16_t)), this, SLOT(mc_speedRead(double, uint16_t)));
+	m_wsm.ticksPerRevolution =
+	    s.value("ticks_per_revolution", static_cast<unsigned>(m_wsm.DEFAULT_TICKS_PER_REVOLUTION))
+	        .toInt();
+	QObject::connect(&m_wsm, SIGNAL(speedRead(double, uint16_t)), this,
+	                 SLOT(mc_speedRead(double, uint16_t)));
 	QObject::connect(&m_wsm, SIGNAL(onError(QString)), this, SLOT(mc_onError(QString)));
-	QObject::connect(&m_wsm, SIGNAL(batteryRead(double, uint16_t)), this, SLOT(mc_batteryRead(double, uint16_t)));
+	QObject::connect(&m_wsm, SIGNAL(batteryRead(double, uint16_t)), this,
+	                 SLOT(mc_batteryRead(double, uint16_t)));
 	QObject::connect(&m_wsm, SIGNAL(batteryCritical()), this, SLOT(mc_batteryCritical()));
-	QObject::connect(&m_wsm, SIGNAL(distanceRead(double, uint32_t)), this, SLOT(mc_distanceRead(double, uint32_t)));
+	QObject::connect(&m_wsm, SIGNAL(distanceRead(double, uint32_t)), this,
+	                 SLOT(mc_distanceRead(double, uint32_t)));
 
 	// GUI init
 	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
@@ -64,7 +68,7 @@ void MainWindow::connect() {
 		m_wsm.connect(ui.le_portname->text());
 		ui.b_connect->setText("Disconnect");
 		ui.le_portname->setEnabled(false);
-	} catch (const Wsm::EOpenError& e) {
+	} catch (const Wsm::EOpenError &e) {
 		QMessageBox m(
 			QMessageBox::Icon::Warning,
 			"Error!",
@@ -107,7 +111,8 @@ void MainWindow::mc_speedRead(double speed, uint16_t speed_raw) {
 		std::ofstream out(ui.le_log_filename->text().toLatin1().data(), std::ofstream::app);
 
 		out << QTime::currentTime().toString("hh:mm:ss.zzz").toLatin1().data() << ";";
-		out << std::fixed << std::setprecision(2) << static_cast<double>(m_origin.msecsTo(QDateTime::currentDateTime())) / 1000 << ";";
+		out << std::fixed << std::setprecision(2)
+		    << static_cast<double>(m_origin.msecsTo(QDateTime::currentDateTime())) / 1000 << ";";
 		out << speed << ";" << speed_raw << "\n";
 	}
 }
@@ -172,7 +177,7 @@ void MainWindow::mc_distanceRead(double distance, uint32_t distance_raw) {
 	ui.l_dist_raw->setText("(" + QString::number(distance_raw) + ")");
 }
 
-void MainWindow::status_set_color(const QColor& color) {
+void MainWindow::status_set_color(const QColor &color) {
 	QPalette palette = ui.l_alive->palette();
 	palette.setColor(QPalette::WindowText, color);
 	ui.l_alive->setPalette(palette);
@@ -180,7 +185,7 @@ void MainWindow::status_set_color(const QColor& color) {
 
 void MainWindow::status_blink() {
 	QPalette palette = ui.l_alive->palette();
-	const QColor& color = palette.color(QPalette::WindowText);
+	const QColor &color = palette.color(QPalette::WindowText);
 	if (color == Qt::gray)
 		status_set_color(palette.color(QPalette::Window));
 	else

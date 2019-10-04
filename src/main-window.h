@@ -1,14 +1,14 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <QMainWindow>
-#include <memory>
 #include <QColor>
 #include <QDateTime>
+#include <QMainWindow>
 #include <QTimer>
+#include <memory>
 
-#include "ui_main-window.h"
 #include "lib/wsm/wsm.h"
+#include "ui_main-window.h"
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -39,7 +39,7 @@ private:
 
 	void connect();
 	void disconnect();
-	void status_set_color(const QColor& color);
+	void status_set_color(const QColor &color);
 	void status_blink();
 };
 
