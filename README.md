@@ -15,9 +15,17 @@ This application is developed in [QT](https://www.qt.io/).
 ## Building & toolkit
 
 This SW was developed in `vim` using `make`. Downloads are available in
-*Releases* section.
+*Releases* section. It is suggested to use `clang` as a compiler, because
+then you may use `clang-tools` during development process (see below).
 
-Howto build:
+### Prerequisities
+
+ * Qt 5
+ * Qt's `serialport`
+ * Optional: clang build tools (see below)
+ * Optional for clang: [Bear](https://github.com/rizsotto/Bear)
+
+### Build
 
 Clone this repository (including submodules!):
 
@@ -30,8 +38,8 @@ And then build:
 ```
 $ mkdir build
 $ cd build
-$ qmake ..
-$ make
+$ qmake -spec linux-clang ..
+$ bear make
 ```
 
 ## Connecting to WSM
@@ -43,6 +51,13 @@ $ make
     ```
     rfcomm connect /dev/rfcomm0 hc-05-hw-address 2
     ```
+
+## Style checking
+
+```
+$ clang-tidy-7 -p build -extra-arg-before=-x -extra-arg-before=c++ -extra-arg=-std=c++14 -header-filter=. src/*.cpp
+$ clang-format-7 *.cpp *.h
+```
 
 ## Authors
 

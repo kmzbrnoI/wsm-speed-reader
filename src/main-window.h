@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow {
 
 public:
 	explicit MainWindow(QWidget *parent = nullptr);
-	~MainWindow();
+	~MainWindow() override;
 
 private slots:
 	void b_connect_handle();
