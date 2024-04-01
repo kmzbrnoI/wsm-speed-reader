@@ -20,10 +20,18 @@ then you may use `clang-tools` during development process (see below).
 
 ### Prerequisities
 
- * Qt 5
+ * Qt 5/6
  * Qt's `serialport`
  * Optional: clang build tools (see below)
  * Optional for clang: [Bear](https://github.com/rizsotto/Bear)
+
+#### Example: toolchain setup on Debian 12 Bookworm
+
+```bash
+$ apt install qt6-base-dev qt6-charts-dev qt6-serialport-dev
+$ apt install clang clang-tools clang-tidy clang-format
+$ apt install bear
+```
 
 ### Build
 
@@ -38,7 +46,7 @@ And then build:
 ```
 $ mkdir build
 $ cd build
-$ qmake -spec linux-clang ..
+$ qmake6 -spec linux-clang ..
 $ bear make
 ```
 
@@ -55,8 +63,8 @@ $ bear make
 ## Style checking
 
 ```
-$ clang-tidy-7 -p build -extra-arg-before=-x -extra-arg-before=c++ -extra-arg=-std=c++14 -header-filter=. src/*.cpp
-$ clang-format-7 *.cpp *.h
+$ clang-tidy -p build src/*.cpp
+$ clang-format *.cpp *.h
 ```
 
 ## Authors
