@@ -12,9 +12,7 @@ const unsigned int BLINK_TIMEOUT = 250; // ms
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
-	QString text;
-	text.asprintf("Speed Reader v%d.%d", VERSION_MAJOR, VERSION_MINOR);
-	this->setWindowTitle(text);
+	this->setWindowTitle(QString("Speed Reader v%1.%2").arg(VERSION_MAJOR).arg(VERSION_MINOR));
 	this->setFixedSize(this->size());
 
 	QSettings s(config_fn, QSettings::IniFormat);
@@ -149,14 +147,12 @@ void MainWindow::b_calculate_handle() {
 }
 
 void MainWindow::mc_batteryRead(double voltage, uint16_t voltage_raw) {
-	QString text;
-	text.asprintf(
-		"Battery: %4.2f V [3.5 – 4.2 V] (%d, %s)",
-		voltage,
-		voltage_raw,
-		QTime::currentTime().toString().toLatin1().data()
+	ui.sb_main->showMessage(
+		QString("Battery: %1 V [3.5 – 4.2 V] (%2, %3)").\
+			arg(voltage, 0, 'f', 2).\
+			arg(voltage_raw).\
+			arg(QTime::currentTime().toString().toLatin1().data())
 	);
-	ui.sb_main->showMessage(text);
 }
 
 void MainWindow::mc_batteryCritical() {
