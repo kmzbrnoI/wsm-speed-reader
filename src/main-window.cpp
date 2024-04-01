@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
 	QString text;
-	text.sprintf("Speed Reader v%d.%d", VERSION_MAJOR, VERSION_MINOR);
+	text.asprintf("Speed Reader v%d.%d", VERSION_MAJOR, VERSION_MINOR);
 	this->setWindowTitle(text);
 	this->setFixedSize(this->size());
 
@@ -150,7 +150,7 @@ void MainWindow::b_calculate_handle() {
 
 void MainWindow::mc_batteryRead(double voltage, uint16_t voltage_raw) {
 	QString text;
-	text.sprintf(
+	text.asprintf(
 		"Battery: %4.2f V [3.5 – 4.2 V] (%d, %s)",
 		voltage,
 		voltage_raw,
