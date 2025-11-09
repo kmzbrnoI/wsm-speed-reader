@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
 	this->setWindowTitle(QString("Speed Reader v%1.%2").arg(VERSION_MAJOR).arg(VERSION_MINOR));
-	this->setFixedSize(this->size());
 
 	QSettings s(config_fn, QSettings::IniFormat);
 	ui.le_portname->setText(s.value("port", "/dev/ttyUSB0").toString());
