@@ -10,6 +10,7 @@
     </message>
     <message>
         <location filename="form/main-window.ui" line="125"/>
+        <location filename="src/main-window.cpp" line="92"/>
         <source>Connect</source>
         <translation>Připojit</translation>
     </message>
@@ -57,6 +58,64 @@
         <location filename="form/main-window.ui" line="293"/>
         <source>Log speed to csv file:</source>
         <translation>Logovat rychlost do csv souboru:</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="60"/>
+        <location filename="src/main-window.cpp" line="98"/>
+        <location filename="src/main-window.cpp" line="156"/>
+        <source>Battery voltage:</source>
+        <translation>Napětí baterie:</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="77"/>
+        <source>Disconnect</source>
+        <translation>Odpojit</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="82"/>
+        <location filename="src/main-window.cpp" line="215"/>
+        <source>Error!</source>
+        <translation>Chyba!</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="83"/>
+        <source>Error while opening serial port </source>
+        <translation>Chyba při otevírání sériového portu </translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="138"/>
+        <source>Info</source>
+        <translation>Informace</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="139"/>
+        <source>Wheel diameter set.</source>
+        <translation>Průměr kola nastaven.</translation>
+    </message>
+    <message>
+        <source>Speed will be updated after next measurement.</source>
+        <translation type="vanished">Rychlost bude aktualizována při příštím měření.</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="166"/>
+        <source>Warning</source>
+        <translation>Varování</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="167"/>
+        <source>Battery level critical, device is shutting down!</source>
+        <translation>Napětí baterie kriticky nízké, měřicí vůz WSM se vypíná!</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="216"/>
+        <source>Serial port error!</source>
+        <translation>Chyba sériového portu!</translation>
+    </message>
+    <message>
+        <location filename="src/main-window.cpp" line="226"/>
+        <source>WSM Speed Reader</source>
+        <oldsource>Speed Reader</oldsource>
+        <translation>WSM Speed Reader</translation>
     </message>
 </context>
 </TS>

@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
 	t_disconnect.setSingleShot(true);
 	QObject::connect(&t_disconnect, SIGNAL(timeout()), this, SLOT(t_disconnect_tick()));
 
-	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
+	ui.sb_main->showMessage(tr("Battery voltage:")+" ?.?? V [3.5 – 4.2 V] (?, ?)");
 
 	this->retranslate();
 }
@@ -74,13 +74,13 @@ void MainWindow::connect() {
 
 	try {
 		m_wsm.connect(ui.le_portname->text());
-		ui.b_connect->setText("Disconnect");
+		ui.b_connect->setText(tr("Disconnect"));
 		ui.le_portname->setEnabled(false);
 	} catch (const Wsm::EOpenError &e) {
 		QMessageBox m(
 			QMessageBox::Icon::Warning,
-			"Error!",
-			"Error while opening serial port " + ui.le_portname->text() + ":\n" + e,
+			tr("Error!"),
+			tr("Error while opening serial port ") + ui.le_portname->text() + ":\n" + e,
 			QMessageBox::Ok
 		);
 		m.exec();
@@ -89,13 +89,13 @@ void MainWindow::connect() {
 
 void MainWindow::disconnect() {
 	m_wsm.disconnect();
-	ui.b_connect->setText("Connect");
+	ui.b_connect->setText(tr("Connect"));
 	ui.le_portname->setEnabled(true);
 	ui.l_speed->setText("??.?");
 	ui.l_speed_raw->setText("?");
 	ui.l_dist->setText("??.??");
 	ui.l_dist_raw->setText("?");
-	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
+	ui.sb_main->showMessage(tr("Battery voltage:")+" ?.?? V [3.5 – 4.2 V] (?, ?)");
 	status_set_color(ui.l_speed->palette().color(QPalette::WindowText));
 }
 
@@ -135,8 +135,8 @@ void MainWindow::mc_onError(QString error) {
 void MainWindow::b_scale_update_handle() {
 	QMessageBox m(
 		QMessageBox::Icon::Information,
-		"Info",
-		"Speed will be updated after next measurement.",
+		tr("Info"),
+		tr("Wheel diameter set."),
 		QMessageBox::Ok
 	);
 	m.exec();
@@ -153,7 +153,7 @@ void MainWindow::b_scale_update_handle() {
 
 void MainWindow::mc_batteryRead(double voltage, uint16_t voltage_raw) {
 	ui.sb_main->showMessage(
-		QString("Battery: %1 V [3.5 – 4.2 V] (%2, %3)").\
+		QString(tr("Battery voltage:")+" %1 V [3.5 – 4.2 V] (%2, %3)").\
 			arg(voltage, 0, 'f', 2).\
 			arg(voltage_raw).\
 			arg(QTime::currentTime().toString().toLatin1().data())
@@ -163,8 +163,8 @@ void MainWindow::mc_batteryRead(double voltage, uint16_t voltage_raw) {
 void MainWindow::mc_batteryCritical() {
 	QMessageBox m(
 		QMessageBox::Icon::Warning,
-		"Warning",
-		"Battery level critical, device is shutting down!",
+		tr("Warning"),
+		tr("Battery level critical, device is shutting down!"),
 		QMessageBox::Ok
 	);
 	m.exec();
@@ -212,8 +212,8 @@ void MainWindow::t_disconnect_tick() {
 
 	QMessageBox m(
 		QMessageBox::Icon::Warning,
-		"Error!",
-		"Serial port error!",
+		tr("Error!"),
+		tr("Serial port error!"),
 		QMessageBox::Ok
 	);
 	m.exec();
@@ -223,7 +223,7 @@ void MainWindow::t_disconnect_tick() {
 
 void MainWindow::retranslate() {
 	this->ui.retranslateUi(this);
-	this->setWindowTitle(QString("Speed Reader v%1.%2").arg(VERSION_MAJOR).arg(VERSION_MINOR));
+	this->setWindowTitle(QString(tr("WSM Speed Reader")+" v%1.%2").arg(VERSION_MAJOR).arg(VERSION_MINOR));
 }
 
 void MainWindow::translate_app_cz() {
