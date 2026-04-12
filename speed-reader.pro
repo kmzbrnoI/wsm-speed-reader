@@ -31,8 +31,8 @@ HEADERS += \
 FORMS += \
 	form/main-window.ui
 
-CONFIG += c++14
-QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
+CONFIG += c++17
+QMAKE_CXXFLAGS += -Wall -Wextra -pedantic -std=c++17
 win32:RC_ICONS += icon/icon.ico
 UI_DIR = src
 
