@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>419</width>
-    <height>401</height>
+    <height>494</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Speed Meter</string>
+   <string notr="true">Speed Meter</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../speed-reader.qrc">
@@ -49,14 +49,7 @@
        <property name="verticalSpacing">
         <number>0</number>
        </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Port name:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
+       <item row="1" column="2">
         <widget class="QLineEdit" name="le_portname">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -71,11 +64,56 @@
           </size>
          </property>
          <property name="text">
-          <string>/dev/ttyUSB0</string>
+          <string notr="true">/dev/ttyUSB0</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Scale:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QDoubleSpinBox" name="dsb_diameter">
+         <property name="decimals">
+          <number>2</number>
+         </property>
+         <property name="minimum">
+          <double>2.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>8.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QSpinBox" name="sb_scale">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>200</number>
+         </property>
+         <property name="value">
+          <number>120</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string notr="true">1:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
         <widget class="QPushButton" name="b_connect">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -97,81 +135,13 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Scale:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_4">
-         <property name="font">
-          <font>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>1:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QSpinBox" name="sb_scale">
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>200</number>
-         </property>
-         <property name="value">
-          <number>120</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="b_calc_diam">
-         <property name="toolTip">
-          <string extracomment="Calculate wheel diamater based on scale"/>
-         </property>
-         <property name="toolTipDuration">
-          <number>5</number>
-         </property>
-         <property name="statusTip">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Calc. diam.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Wheel diameter:&lt;br&gt;[mm]</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QDoubleSpinBox" name="dsb_diameter">
-         <property name="decimals">
-          <number>2</number>
-         </property>
-         <property name="minimum">
-          <double>2.000000000000000</double>
-         </property>
-         <property name="value">
-          <double>8.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
+       <item row="3" column="3">
         <widget class="QPushButton" name="b_scale_update">
          <property name="toolTip">
           <string extracomment="Update scale and wheen diameter"/>
          </property>
          <property name="text">
-          <string>Update</string>
+          <string>Set</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -181,6 +151,41 @@
          </property>
          <property name="flat">
           <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QComboBox" name="cb_language">
+         <item>
+          <property name="text">
+           <string notr="true">English</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string notr="true">Čeština</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Language:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>WSM port name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Wheel diameter:&lt;br&gt;[mm]</string>
          </property>
         </widget>
        </item>
@@ -210,7 +215,7 @@
           </font>
          </property>
          <property name="text">
-          <string>??.??</string>
+          <string notr="true">??.??</string>
          </property>
         </widget>
        </item>
@@ -222,14 +227,14 @@
           </font>
          </property>
          <property name="text">
-          <string>m</string>
+          <string notr="true">m</string>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
         <widget class="QLabel" name="l_dist_raw">
          <property name="text">
-          <string>(?)</string>
+          <string notr="true">(?)</string>
          </property>
         </widget>
        </item>
@@ -278,7 +283,7 @@
           </font>
          </property>
          <property name="text">
-          <string>km/h</string>
+          <string notr="true">km/h</string>
          </property>
         </widget>
        </item>
@@ -304,7 +309,7 @@
           </size>
          </property>
          <property name="text">
-          <string>(?)</string>
+          <string notr="true">(?)</string>
          </property>
         </widget>
        </item>
@@ -328,7 +333,7 @@
           </font>
          </property>
          <property name="text">
-          <string>●</string>
+          <string notr="true">●</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -355,7 +360,7 @@
           </font>
          </property>
          <property name="text">
-          <string>??.?</string>
+          <string notr="true">??.?</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
@@ -371,12 +376,15 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>cb_language</tabstop>
   <tabstop>le_portname</tabstop>
   <tabstop>b_connect</tabstop>
   <tabstop>sb_scale</tabstop>
-  <tabstop>b_calc_diam</tabstop>
   <tabstop>dsb_diameter</tabstop>
   <tabstop>b_scale_update</tabstop>
+  <tabstop>chb_log</tabstop>
+  <tabstop>le_log_filename</tabstop>
+  <tabstop>b_dist_reset</tabstop>
  </tabstops>
  <resources>
   <include location="../speed-reader.qrc"/>

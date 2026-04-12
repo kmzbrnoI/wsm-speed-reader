@@ -24,6 +24,7 @@ SOURCES += \
 
 HEADERS += \
 	lib/wsm/wsm.h \
+	src/main.h \
 	lib/q-str-exception.h \
 	src/main-window.h
 
@@ -47,3 +48,8 @@ DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
 VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}
 
 RESOURCES += speed-reader.qrc
+
+TRANSLATIONS += \
+    speed-reader_cs_CZ.ts
+
+CONFIG += lrelease embed_translations

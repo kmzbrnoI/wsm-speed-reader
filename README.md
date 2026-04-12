@@ -50,6 +50,16 @@ $ qmake6 -spec linux-clang ..
 $ bear make
 ```
 
+### Language support
+
+Following app languages are supported:
+
+1. english - default
+2. czech - `speed-reader_cs_CZ.ts`
+
+To generate `speed-reader_cs_CZ.ts`, run `lupdate auto-calib.pro`.
+
+
 ## Connecting to WSM
 
  * Windows: pair it with HC-05 module, serial port should be added

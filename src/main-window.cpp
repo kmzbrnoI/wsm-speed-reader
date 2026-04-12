@@ -5,6 +5,7 @@
 #include <iomanip>
 
 #include "main-window.h"
+#include "main.h"
 
 const QString config_fn = "config.ini";
 const unsigned int BLINK_TIMEOUT = 250; // ms
@@ -12,9 +13,17 @@ const unsigned int BLINK_TIMEOUT = 250; // ms
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(), m_origin(QDateTime::currentDateTime()) {
 	ui.setupUi(this);
-	this->setWindowTitle(QString("Speed Reader v%1.%2").arg(VERSION_MAJOR).arg(VERSION_MINOR));
 
 	QSettings s(config_fn, QSettings::IniFormat);
+
+	if (s.value("language") == "cz") {
+		ui.cb_language->setCurrentIndex(1);
+		translate_app_cz();
+	} else {
+		ui.cb_language->setCurrentIndex(0);
+		translate_app_en();
+	}
+
 	ui.le_portname->setText(s.value("port", "/dev/ttyUSB0").toString());
 	ui.sb_scale->setValue(s.value("scale", 120).toInt());
 	ui.dsb_diameter->setValue(s.value("diameter", 8).toDouble());
@@ -36,11 +45,11 @@ MainWindow::MainWindow(QWidget *parent)
 	                 SLOT(mc_distanceRead(double, uint32_t)));
 
 	// GUI init
+	QObject::connect(ui.cb_language, SIGNAL(currentIndexChanged(int)), this, SLOT(cb_language_changed(int)));
 	QObject::connect(ui.b_connect, SIGNAL(released()), this, SLOT(b_connect_handle()));
 	QObject::connect(ui.le_portname, SIGNAL(returnPressed()), this, SLOT(b_connect_handle()));
 
 	QObject::connect(ui.b_scale_update, SIGNAL(released()), this, SLOT(b_scale_update_handle()));
-	QObject::connect(ui.b_calc_diam, SIGNAL(released()), this, SLOT(b_calculate_handle()));
 
 	QObject::connect(ui.b_dist_reset, SIGNAL(released()), this, SLOT(b_dist_reset_handle()));
 	QObject::connect(ui.chb_log, SIGNAL(clicked()), this, SLOT(chb_log_change()));
@@ -49,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent)
 	QObject::connect(&t_disconnect, SIGNAL(timeout()), this, SLOT(t_disconnect_tick()));
 
 	ui.sb_main->showMessage("Battery: ?.?? V [3.5 – 4.2 V] (?, ?)");
+
+	this->retranslate();
 }
 
 MainWindow::~MainWindow() {
@@ -212,3 +223,38 @@ void MainWindow::t_disconnect_tick() {
 	);
 	m.exec();
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::retranslate() {
+	this->ui.retranslateUi(this);
+	this->setWindowTitle(QString("Speed Reader v%1.%2").arg(VERSION_MAJOR).arg(VERSION_MINOR));
+}
+
+void MainWindow::translate_app_cz() {
+	for (std::unique_ptr<QTranslator>& trans : cz_translators) {
+		qApp->removeTranslator(trans.get());
+		if (!qApp->installTranslator(trans.get()))
+			QMessageBox::critical(nullptr, "Error", "Unable to install translator " + trans->filePath() + "!");
+	}
+	this->retranslate();
+}
+
+void MainWindow::translate_app_en() {
+	for (std::unique_ptr<QTranslator>& trans : cz_translators)
+		qApp->removeTranslator(trans.get());
+	this->retranslate();
+}
+
+void MainWindow::cb_language_changed(int index) {
+	QSettings s(config_fn, QSettings::IniFormat);
+
+	if (index == 1) {
+		s.setValue("language", "cz");
+		translate_app_cz();
+	} else {
+		s.setValue("language", "en");
+		translate_app_en();
+	}
+}
+
